@@ -8,10 +8,12 @@ var level = [
     [1, 0, 0, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1]
 ];
-var map = level;
+
 var playerPosition; //マップ内のプレイやの位置(ｘ、ｙ)を保持する
 var playerSprite; //プレイヤーのスプライト
 var cratesArray = []; //配置した木箱のスプライトを配列に保持する
+
+var audioEngine;
 
 var startTouch;
 var endTouch;
@@ -27,7 +29,17 @@ var gameScene = cc.Scene.extend({
         var layer0 = new gameLayer();
         layer0.init();
         this.addChild(layer0);
-    }
+
+        //音楽再生エンジン
+        audioEngine = cc.audioEngine;
+        //bgm再生
+        if (!audioEngine.isMusicPlaying()) {
+            //audioEngine.playMusic("res/bgm_main.mp3", true);
+            audioEngine.playMusic(res.bgm_main, true);
+        }
+
+
+    },
 });
 
 var gameLayer = cc.Layer.extend({
@@ -51,9 +63,6 @@ var gameLayer = cc.Layer.extend({
         levelSprite.setScale(5);
         this.addChild(levelSprite);
 
-        var reset = new cc.MenuItemFont("reset", this.onTouchreset, this);
-        reset.setPosition(400, 200);
-        this.addChild(reset);
 
 
 
@@ -100,6 +109,7 @@ var listener = cc.EventListener.create({
     swallowTouches: true,
     onTouchBegan: function(touch, event) {
         startTouch = touch.getLocation();
+
         return true;
     },
     onTouchEnded: function(touch, event) {
@@ -151,10 +161,10 @@ function move(deltaX, deltaY) {
             level[playerPosition.y][playerPosition.x] += 4;
             playerSprite.setPosition(165 + 25 * playerPosition.x, 185 - 25 * playerPosition.y);
 
-            if (level[playerPosition.y + deltaY][playerPosition.x + deltaX] == 5){
+            if (level[playerPosition.y + deltaY][playerPosition.x + deltaX] == 5) {
 
                 gameflag -= 1;
-}
+            }
             break;
         case 3:
         case 5:
@@ -174,8 +184,8 @@ function move(deltaX, deltaY) {
             if (level[playerPosition.y + deltaY][playerPosition.x + deltaX] == 5) {
                 gameflag += 1;
             }
-            if(gameflag == createflag){
-            cc.director.runScene(new NextScene());
+            if (gameflag == createflag) {
+                cc.director.runScene(new NextScene());
             }
             break;
     }
