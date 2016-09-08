@@ -54,6 +54,19 @@
                 <key>sourceSize</key>
                 <string>{35,35}</string>
             </dict>
+            <key>level2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,68},{35,35}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{35,35}}</string>
+                <key>sourceSize</key>
+                <string>{35,35}</string>
+            </dict>
             <key>player.png</key>
             <dict>
                 <key>frame</key>
