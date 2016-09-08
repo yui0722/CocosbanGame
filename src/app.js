@@ -63,6 +63,11 @@ var gameLayer = cc.Layer.extend({
         levelSprite.setScale(5);
         this.addChild(levelSprite);
 
+        var resetSprite = new reset();
+        resetSprite.setPosition(420, 180);
+        resetSprite.setScale(2);
+        this.addChild(resetSprite);
+
 
 
 
@@ -103,6 +108,42 @@ var gameLayer = cc.Layer.extend({
         cc.eventManager.addListener(listener, this);
     },
 });
+
+var reset = cc.Sprite.extend({
+    ctor:function() {
+        this._super();
+        this.initWithFile(res.reset_png);
+        cc.eventManager.addListener(listener2.clone(), this);
+    }
+});
+
+
+var listener2 = cc.EventListener.create({
+    event: cc.EventListener.TOUCH_ONE_BY_ONE,
+    swallowTouches: true,
+    onTouchBegan: function(touch, event) {
+        startTouch = touch.getLocation();
+        var target = event.getCurrentTarget();
+        var location = target.convertToNodeSpace(touch.getLocation());
+        var SpriteSize = target.getContentSize();
+        var SpriteRect = cc.rect(0, 0, SpriteSize.width, SpriteSize.height);
+        if (cc.rectContainsPoint(SpriteRect, location)) {
+            level = [
+                [1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 0, 0, 0, 0, 1],
+                [1, 1, 3, 0, 2, 0, 1],
+                [1, 0, 0, 4, 0, 0, 1],
+                [1, 0, 3, 1, 2, 0, 1],
+                [1, 0, 0, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1]
+            ];
+        createflag = 0;
+        gameflag = 0;
+        cc.director.runScene(new gameScene());
+      }
+    }
+});
+
 
 var listener = cc.EventListener.create({
     event: cc.EventListener.TOUCH_ONE_BY_ONE,
